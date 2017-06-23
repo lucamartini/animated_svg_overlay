@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>overlay analysis</title>
+  <link rel="stylesheet" type="text/css" href="../style/style.css">
+</head>
+
+<body>
+  <div class="outer-container">
+    <div class="inner-container">
+      <video class="video" id="player" src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay>
+      </video>
+      <div class="video-overlay">
+        <object class="circle" id="overlay" type="image/svg+xml" data="../media/circle.svg" width="150" height="150">not supported!</object>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    function dataIncoming() {
+      const circle = document.getElementById("overlay");
+      
+      circle.addEventListener("load", function(){
+        var content = circle.contentDocument;
+        var circlet = content.getElementById("circlet");
+
+        let time = 2;
+        circlet.addEventListener("mousedown", function(){
+          console.log('user clicked!');
+          if (time < 0.5) {
+            time = 2;
+          }
+          time*=0.5;
+          circlet.style.webkitAnimationDuration = time + "s";
+          circlet.style.mozAnimationDuration = time + "s";
+          circlet.style.animationDuration = time + "s";
+        });
+
+        function externalInputIncoming() {
+          console.log('external input incoming!');
+          circlet.getAttribute("stroke") == 'red' ? circlet.setAttribute("stroke", "blue") : circlet.setAttribute("stroke", "red");
+          setTimeout(externalInputIncoming, 3000);;
+        }
+        externalInputIncoming();
+  
+      });
+    }
+    dataIncoming();
+  </script>
+
+</body>
+
+</html>
