@@ -30,10 +30,10 @@
         let time = 2;
         circlet.addEventListener("mousedown", function(){
           console.log('user clicked!');
+          time*=0.5;
           if (time < 0.5) {
             time = 2;
           }
-          time*=0.5;
           circlet.style.webkitAnimationDuration = time + "s";
           circlet.style.mozAnimationDuration = time + "s";
           circlet.style.animationDuration = time + "s";
@@ -42,7 +42,7 @@
         function externalInputIncoming() {
           console.log('external input incoming!');
           circlet.getAttribute("stroke") == 'red' ? circlet.setAttribute("stroke", "blue") : circlet.setAttribute("stroke", "red");
-          setTimeout(externalInputIncoming, 3000);;
+          setTimeout(externalInputIncoming, 1000);;
         }
         externalInputIncoming();
   
