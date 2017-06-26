@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>overlay analysis</title>
+  <link rel="stylesheet" type="text/css" href="../style/style.css">
+</head>
+
+<body>
+  <div class="outer-container">
+    <div class="inner-container">
+      <video class="video" id="player" src="https://www.w3schools.com/html/mov_bbb.mp4" muted autoplay playsinline>
+      </video>
+      <div class="video-overlay" id="video-overlay">
+      </div>
+      
+    </div>
+    <br>
+    <span>The svg circle is clickable: it will change its speed on click</span>
+  </div>
+
+  <script>
+    function dataIncoming() {
+      const circle = document.getElementById("overlay");
+      
+      circle.addEventListener("load", function(){
+        var circlet = circle.getElementById("circlet");
+
+        let time = 2;
+        circlet.addEventListener("mousedown", function(){
+          console.log('user clicked!');
+          time*=0.5;
+          if (time < 0.5) {
+            time = 2;
+          }
+          circlet.style.webkitAnimationDuration = time + "s";
+          circlet.style.mozAnimationDuration = time + "s";
+          circlet.style.animationDuration = time + "s";
+        });
+
+        function externalInputIncoming() {
+          console.log('external input incoming!');
+          circlet.getAttribute("stroke") == 'red' ? circlet.setAttribute("stroke", "blue") : circlet.setAttribute("stroke", "red");
+          setTimeout(externalInputIncoming, 1000);;
+        }
+        externalInputIncoming();
+  
+      });
+    }
+
+    function reqListener () {
+      console.log(this.responseText);
+      const overlay = document.querySelector("#video-overlay");
+      overlay.innerHTML = this.responseText;
+      const svg = overlay.querySelector("svg");
+      svg.setAttribute("width", "150");
+      svg.setAttribute("height", "150");
+      svg.setAttribute("class", "circle");
+      svg.setAttribute("id", "overlay");
+
+      dataIncoming();
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.onload = reqListener;
+    oReq.open("get", "../media/circle.svg", true);
+    oReq.send();
+
+    
+  </script>
+
+</body>
+
+</html>
